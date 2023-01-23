@@ -1,22 +1,47 @@
-// requiring in express to use in the file
-const express = require('express')
-// creating the app so we can us the app methods
+/////////////////////////////////////
+//// Import Dependencies         ////
+/////////////////////////////////////
+const express = require('express') // import the express framework
+const morgan = require('morgan') // import the morgan request logger
+require('dotenv').config() // Load my ENV file's variables
+const path = require('path') // import path module
+const MovieRouter = require('./controllers/movieControllers')
+const UserRouter = require('./controllers/userControllers')
+const CommentRouter = require('./controllers/commentControllers')
+const middleware = require('./utils/middleware')
+
+/////////////////////////////////////
+//// Create our Express App Object //
+/////////////////////////////////////
 const app = express()
-// Magic numbers by convention are capitlized and set into seperate varibles
-const PORT = 3000
 
-// .get - is the http method we are listening for
-// `/` - is the path we are declaring for this route, so if there is a `GET` request to `/` this callback function will run
-// req - the request object coming in from client, passed to us from .get
-// res - the response object we are sending back
+/////////////////////////////////////
+//// Middleware                  ////
+/////////////////////////////////////
+// middleware runs before all the routes.
+// every request is processed through our middleware before mongoose can do anything with it
+// our middleware is now processed by a function in the utils directory. This middleware function takes one argument, app, and processes requests through our middleware
+middleware(app)
+
+
+/////////////////////////////////////
+//// Routes                      ////
+/////////////////////////////////////
 app.get('/', (req, res) => {
-    // using the `res` .send method to send some HTML to the client
-    res.send('<h1>why hello there</h1>')
+    res.send('Server is live, ready for requests')
 })
 
-// using the .listen method to set up a server to listen for request coming in
-// PORT - the port number we are listening on
-app.listen(PORT, () => {
-    // just a console log so show we are listening
-    console.log(`Port is listening on ${PORT}`)
-})
+// This is now where we register our routes, this is how server.js knows to send the correc response. 
+// app.use, when we register a route, needs two arguments
+// the first arg is the base URL, second arg is the file to use.
+app.use('/movies', MovieRouter)
+app.use('/comments', CommentRouter)
+app.use('/users', UserRouter)
+
+/////////////////////////////////////
+//// Server Listener             ////
+/////////////////////////////////////
+const PORT = process.env.PORT
+app.listen(PORT, () => console.log(`Now listening to the sweet sounds of port: ${PORT}`))
+
+// END
