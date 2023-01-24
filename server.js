@@ -49,6 +49,6 @@ app.use('/users', UserRouter)
 //// Server Listener             ////
 /////////////////////////////////////
 const PORT = process.env.PORT
-app.listen(PORT, () => console.log(`Now listening to the sweet sounds of port: ${PORT}`))
+app.listen(PORT, () => console.log(`Server Running: ${PORT}`))
 
 // END
