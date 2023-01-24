@@ -23,13 +23,17 @@ router.get('/', (req, res) => {
         .populate('owner', 'username')
         .populate('comments.author', '-password')
         // send json if successful
-        .then(movies => { res.json({ movies: movies })})
+        .then(movies => { 
+            // res.json({ movies: movies })})
+            // we have liquid installed so will be taken care
+            res.render('movies/index', { movies })
+        })
         // catch errors if they occur
         .catch(err => {
             console.log(err)
             res.status(404).json(err)
         })
-})
+    })
 
 // CREATE route
 // Create -> receives a request body, and creates a new document in the database
