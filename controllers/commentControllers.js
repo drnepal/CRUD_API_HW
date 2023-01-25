@@ -1,5 +1,5 @@
 /////////////////////////////////////
-//// Import Dependencies         ////  // Are also call routes by Some
+//// Import Dependencies         ////
 /////////////////////////////////////
 const express = require('express')
 const Movie = require('../models/movie')
@@ -41,27 +41,30 @@ router.post('/:movieId', (req, res) => {
             })
             // respond with a 201 and the movie itself
             .then(movie => {
-                res.status(201).json({ movie: movie })
+                // res.status(201).json({ movie: movie })
+                res.redirect(`/movies/${movie.id}`)
             })
             // catch and handle any errors
             .catch(err => {
                 console.log(err)
-                res.status(400).json(err)
+                // res.status(400).json(err)
+                res.redirect(`/error?error=${err}`)
             })
     } else {
-        res.sendStatus(401) //send a 401-unauthorized
+        // res.sendStatus(401) //send a 401-unauthorized
+        res.redirect(`/error?error=You%20Are%20not%20allowed%20to%20comment%20on%20this%20movie`)
     }
 })
 
-// DELETE -> `/comments/delete/<somemovieId>/<someCommentId>`
+// DELETE -> `/comments/delete/<someMovieId>/<someCommentId>`
 // make sure only the author of the comment can delete the comment
 router.delete('/delete/:movieId/:commId', (req, res) => {
     // isolate the ids and save to variables so we don't have to keep typing req.params
     // const movieId = req.params.movieId
     // const commId = req.params.commId
-    const { moveiId, commId } = req.params
+    const { movieId, commId } = req.params
     // get the movie
-    movie.findById(movieId)
+    Movie.findById(movieId)
         .then(movie => {
             // get the comment, we'll use the built in subdoc method called .id()
             const theComment = movie.comments.id(commId)
@@ -73,19 +76,23 @@ router.delete('/delete/:movieId/:commId', (req, res) => {
                     // we can use another built in method - remove()
                     theComment.remove()
                     movie.save()
-                    res.sendStatus(204) //send 204 no content
+                    // res.sendStatus(204) //send 204 no content
+                    res.redirect(`/movies/${movie.id}`)
                 } else {
                     // otherwise send a 401 - unauthorized status
-                    res.sendStatus(401)
+                    // res.sendStatus(401)
+                    res.redirect(`/error?error=You%20Are%20not%20allowed%20to%20delete%20this%20comment`)
                 }
             } else {
                 // otherwise send a 401 - unauthorized status
-                res.sendStatus(401)
+                // res.sendStatus(401)
+                res.redirect(`/error?error=You%20Are%20not%20allowed%20to%20delete%20this%20comment`)
             }
         })
         .catch(err => {
             console.log(err)
-            res.status(400).json(err)
+            // res.status(400).json(err)
+            res.redirect(`/error?error=${err}`)
         })
 })
 

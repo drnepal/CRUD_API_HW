@@ -13,12 +13,21 @@ const router = express.Router()
 //////////////////////////////
 //// Routes               ////
 //////////////////////////////
+// GET -> /users/signup
+// Renders a liquid page with the sign up form
+router.get('/signup', (req, res) => {
+    // res.render points to a file
+    // res.redirect points to a url
+    res.render('users/signup')
+})
+
+
 // POST -> /users/signup
 // This route creates new users in our db
 router.post('/signup', async (req, res) => {
     // this route will take a req.body and use that data to create a user
     const newUser = req.body
-    // console.log('this is req.body', req.body)
+    console.log('this is req.body', req.body)
     // we'll need to encrypt their password
     // this is where bcrypt comes into play
     // for the sake of bcrypt, we're going to use async and await
@@ -31,13 +40,22 @@ router.post('/signup', async (req, res) => {
         // if we're successful, send a 201 status
         .then(user => {
             // console.log('new user created \n', user)
-            res.status(201).json({ username: user.username })
+            // res.status(201).json({ username: user.username })
+            // makes sense to me, to redirect to the log in page
+            res.redirect('/users/login')
         })
         // if there is an error, handle the error
         .catch(err => {
             console.log(err)
-            res.json(err)
+            // res.json(err)
+            res.redirect(`/error?error=username%20taken`)
         })
+})
+
+// GET -> /users/login
+// Renders a liquid page with the login form
+router.get('/login', (req, res) => {
+    res.render('users/login')
 })
 
 // POST -> /users/login
@@ -69,22 +87,33 @@ router.post('/login', async (req, res) => {
 
                     // we'll send a 201 response and the user as json(for now)
                     // we'll update this after a couple tests to adhere to best practices
-                    res.status(201).json({ username: user.username })
+                    // res.status(201).json({ username: user.username })
+                    res.redirect('/')
                 } else {
                     // if the passwords dont match, send the user a message
-                    res.json({ error: 'username or password is incorrect' })
+                    // res.json({ error: 'username or password is incorrect' })
+                    res.redirect(`/error?error=username%20or%20password%20is%20incorrect`)
                 }
 
             } else {
                 // if the user does not exist, we respond with a message saying so
-                res.json({ error: 'user does not exist' })
+                // res.json({ error: 'user does not exist' })
+                res.redirect(`/error?error=user%20does%20not%20exist`)
             }
 
         })
         .catch(err => {
             console.log(err)
-            res.json(err)
+            // res.json(err)
+            res.redirect(`/error?error=${err}`)
         })
+})
+
+
+// GET -> /users/logout
+// This route renders a page that allows the user to log out
+router.get('/logout', (req, res) => {
+    res.render('users/logout')
 })
 
 // DELETE -> /users/logout
@@ -94,7 +123,7 @@ router.delete('/logout', (req, res) => {
     req.session.destroy(() => {
         console.log('this is req.session upon logout \n', req.session)
         // eventually we will redirect users here, but thats after adding the view layer
-        res.sendStatus(204)
+        res.redirect('/')
     })
 })
 

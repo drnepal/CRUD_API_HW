@@ -1,0 +1,98 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div class="container-md">
+        <article>
+            <h2>{{movie.name}}</h2>
+            <h4>
+                {% if movie.isPgRated %}
+                    Ripe and Ready
+                {% else %}
+                    Not Good! Do Not Watch!
+                {% endif %}
+            </h4>
+            <h4>The Genre of the movie is Drama: {{movie.genre}}</h4>
+            <div class="colorBox" style="background-color: {{movie.color}}"></div>
+            {% if movie.owner == userId %}
+                <hr>
+                <div class="btn-group">
+                    {%- comment -%}
+                    first button will take us to the edit page
+                    second will actually be a form, that calls our delete route
+                    {%- endcomment -%}
+                    <a href="/movies/edit/{{movie.id}}" class="btn btn-primary">Edit {{movie.name}}</a>
+                    <form action="/movies/{{movie.id}}?_method=DELETE" method="POST">
+                        <input type="submit" class="btn btn-danger" value="Delete {{movie.name}}">
+                    </form>
+                </div>
+            {% endif %}
+        </article>
+        <hr>
+        <h4>comments</h4>
+        <hr>
+        {% if loggedIn %}
+            <div class="col-md-6">
+                <form action="/comments/{{ movie.id }}" method="POST">
+                    <fieldset>
+                        <legend>Add Comment</legend>
+                        <label class="form-label">comment: </label>
+                        <input type="text" name="note" class="form-control mb-1">
+                    </fieldset>
+                    <input type="submit" class="btn btn-success" value="add comment">
+                </form>
+            </div>
+        {% else %}
+            <div class="col-md-6">
+                <small>If you'd like to leave a comment, please log in...</small>
+            </div>
+        {% endif %}
+        <hr>
+        {% if movie.comments.length > 0 %}
+            <div class="container-sm justify-content-center">
+                {% for comm in movie.comments %}
+                    {% render '../comment.liquid', comm: comm, userId: userId, movie: movie %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <small>no comments yet...</small>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

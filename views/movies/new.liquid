@@ -1,0 +1,28 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div class="container-sm">
+        <form action="/movies" method="POST">
+            <fieldset>
+                <legend>Create New Fruit</legend>
+                <label class="form-label">Name:</label>
+                <input 
+                    type="text" class="form-control" 
+                    name="name" placeholder="What kind of movie is it?"
+                    required
+                >
+                <label class="form-label">Genre:</label>
+                <input 
+                    type="color" class="form-control" 
+                    name="color" placeholder="Name of  the movie"
+                    required
+                >
+                <label class="form-label">PGRated:</label>
+                <input 
+                    type="checkbox" class="form-check-control" 
+                    name="PgRated"
+                >
+            </fieldset>
+            <input type="submit" class="btn btn-success" value="Create New Fruit">
+        </form>
+    </div>
+{% endblock %}
