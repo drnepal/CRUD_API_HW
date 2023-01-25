@@ -13,13 +13,13 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 {% if movie.isPgRated %}
-                                    Dp not Watch
+                                    Do not Watch
                                 {% else %}
                                     Watch
                                 {% endif %}
                             </h5>
-                            <p class="card-text">The color of this {{movie.name}} is {{movie.color}}</p>
-                            <div class="colorBox mb-2" style="background-color: {{movie.color}}"></div>
+                            <p class="card-text">The color of this {{movie.genre}} is {{movie.genre}}</p>
+                            <div class="colorBox mb-2" style="background-color: {{movie.genre}}"></div>
                             <a href="/movies/{{movie.id}}" class="btn btn-info">View {{movie.name}}</a>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
         </div>
     {% else %}
         <div class="container-md">
-            <h2>No movies yet... Go create some!</h2>
+            <h2>No movies yet...Releasing soon!</h2>
         </div>
     {% endif %}
 {% endblock %}

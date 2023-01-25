@@ -16,7 +16,7 @@ db.on('open', () => {
     const startMovies = [
         { name: 'Titanic', genre: 'romance_love', isPgRated: true },
         { name: 'Avatar', genre: 'sci_fiction', isPgRated: true },
-        { name: 'LOTR', genre: 'afiction', isPgRated: false },
+        { name: 'LOTR', genre: 'action', isPgRated: false },
         { name: 'Zurassic_Park', genre: 'fiction', isPgRated: false },
         { name: 'cowboy', genre: 'drama', isPgRated: true }
     ]

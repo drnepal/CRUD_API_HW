@@ -5,7 +5,7 @@ const express = require('express') // import the express framework
 const morgan = require('morgan') // import the morgan request logger
 require('dotenv').config() // Load my ENV file's variables
 const path = require('path') // import path module
-const FruitRouter = require('./controllers/movieControllers')
+const MovieRouter = require('./controllers/movieControllers')
 const UserRouter = require('./controllers/userControllers')
 const CommentRouter = require('./controllers/commentControllers')
 const middleware = require('./utils/middleware')
@@ -13,10 +13,9 @@ const middleware = require('./utils/middleware')
 /////////////////////////////////////
 //// Create our Express App Object //
 /////////////////////////////////////
-// this was fine for building an API that sends and receives json
-// const app = express()
-// but now, our app is going to be Full-Stack. That means handling front-end and back-end from the same server(in this case).
-// so, we're utilizing an npm package `liquid-express-views` to add the 'view' layer to our MVC framework.
+
+
+
 // in short, we need to update our app object and tell it to use that package, as stated by the documentation. 
 const app = require('liquid-express-views')(express())
 // what liquid-express-views really does for us, is make it easy to path to our .liquid files(which will serve our html). This package says to look inside the 'views' folder for files with the .liquid name.
@@ -43,7 +42,7 @@ app.get('/', (req, res) => {
 // This is now where we register our routes, this is how server.js knows to send the correc response. 
 // app.use, when we register a route, needs two arguments
 // the first arg is the base URL, second arg is the file to use.
-app.use('/movies', FruitRouter)
+app.use('/movies', MovieRouter)/////////////// has to be same as above constants
 app.use('/comments', CommentRouter)
 app.use('/users', UserRouter)
 
@@ -66,6 +65,6 @@ app.all('*', (req, res) => {
 //// Server Listener             ////
 /////////////////////////////////////
 const PORT = process.env.PORT
-app.listen(PORT, () => console.log(`Now listening to the sweet sounds of port: ${PORT}`))
+app.listen(PORT, () => console.log(`SERVER Running Smoothly: ${PORT}`))
 
 // END

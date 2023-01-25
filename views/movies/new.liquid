@@ -3,7 +3,7 @@
     <div class="container-sm">
         <form action="/movies" method="POST">
             <fieldset>
-                <legend>Create New Fruit</legend>
+                <legend>The Movie You WAnted to Watch.....</legend>
                 <label class="form-label">Name:</label>
                 <input 
                     type="text" class="form-control" 
@@ -12,17 +12,26 @@
                 >
                 <label class="form-label">Genre:</label>
                 <input 
-                    type="color" class="form-control" 
-                    name="color" placeholder="Name of  the movie"
+                    class="form-control" 
+                 " placeholder="What type of Movie is this ?"
                     required
                 >
+                <select id="cars">
+  <option value="LOTR">LOTR</option>
+  <option value="Titanic">Titanic</option>
+  <option value="Avatar">Avatar</option>
+  <option value="Zurassic_World"> Zurassic_World</option>
+  <option value="SpiderMan"> Spider Man</option>
+  <option value="Kissing_Booth"> Kissing_booth</option>
+
+</select>
                 <label class="form-label">PGRated:</label>
                 <input 
                     type="checkbox" class="form-check-control" 
                     name="PgRated"
                 >
             </fieldset>
-            <input type="submit" class="btn btn-success" value="Create New Fruit">
+            <input type="submit" class="btn btn-success" value="Make Your Type">
         </form>
     </div>
 {% endblock %}
